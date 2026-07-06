@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { parseArgs } from "node:util";
+import { exitCode, formatJson, formatText } from "./report.js";
+import { runChecks } from "./run.js";
 
 const VERSION = "0.1.0";
 
@@ -37,8 +39,9 @@ function main(argv: string[]): number {
   }
 
   const target = positionals[0] ?? process.cwd();
-  process.stdout.write(`Checking ${target} ...\n`);
-  return 0;
+  const findings = runChecks(target);
+  process.stdout.write(values.json ? formatJson(findings) : formatText(findings));
+  return exitCode(findings);
 }
 
 process.exitCode = main(process.argv.slice(2));
