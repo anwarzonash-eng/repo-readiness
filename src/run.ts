@@ -1,11 +1,16 @@
 import { resolve } from "node:path";
 import { checkTrackedEnvFiles } from "./checks/env.js";
 import { checkRequiredFiles } from "./checks/files.js";
+import { scanHistory } from "./checks/history.js";
 import { scanFiles } from "./checks/secrets.js";
 import { isGitRepo, trackedFiles } from "./git.js";
 import type { Finding } from "./types.js";
 
-export function runChecks(path: string): Finding[] {
+export interface Options {
+  history?: boolean;
+}
+
+export function runChecks(path: string, options: Options = {}): Finding[] {
   const root = resolve(path);
   const findings = checkRequiredFiles(root);
   if (findings.some((f) => f.message.startsWith("Path does not exist"))) return findings;
@@ -17,5 +22,6 @@ export function runChecks(path: string): Finding[] {
   const tracked = trackedFiles(root);
   findings.push(...checkTrackedEnvFiles(tracked));
   findings.push(...scanFiles(root, tracked));
+  if (options.history) findings.push(...scanHistory(root));
   return findings;
 }

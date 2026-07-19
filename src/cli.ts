@@ -23,6 +23,7 @@ function main(argv: string[]): number {
     args: argv,
     allowPositionals: true,
     options: {
+      history: { type: "boolean" },
       json: { type: "boolean" },
       help: { type: "boolean", short: "h" },
       version: { type: "boolean", short: "v" },
@@ -39,7 +40,7 @@ function main(argv: string[]): number {
   }
 
   const target = positionals[0] ?? process.cwd();
-  const findings = runChecks(target);
+  const findings = runChecks(target, { history: values.history });
   process.stdout.write(values.json ? formatJson(findings) : formatText(findings));
   return exitCode(findings);
 }
