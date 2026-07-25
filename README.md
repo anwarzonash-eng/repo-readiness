@@ -43,6 +43,7 @@ WARN  [files] Missing ROADMAP file in the top folder
 | `files` | error / warn | README and LICENSE (error), ROADMAP and `.gitignore` (warn) |
 | `env` | error / warn | Tracked `.env*` files (not `.example`), missing `.env.example` |
 | `secrets` | error | AWS, GitHub, Stripe, Slack and Google keys, private key blocks, database URLs with passwords |
+| `personal-data` | warn | Emails outside example domains |
 | `history` | error | The secret rules applied to every line ever added (`--history`) |
 
 Matching is heuristic: expect some false positives and some misses. It does not replace a dedicated scanner.

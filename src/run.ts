@@ -1,4 +1,5 @@
 import { resolve } from "node:path";
+import { scanEmails } from "./checks/emails.js";
 import { checkTrackedEnvFiles } from "./checks/env.js";
 import { checkRequiredFiles } from "./checks/files.js";
 import { scanHistory } from "./checks/history.js";
@@ -22,6 +23,7 @@ export function runChecks(path: string, options: Options = {}): Finding[] {
   const tracked = trackedFiles(root);
   findings.push(...checkTrackedEnvFiles(tracked));
   findings.push(...scanFiles(root, tracked));
+  findings.push(...scanEmails(root, tracked));
   if (options.history) findings.push(...scanHistory(root));
   return findings;
 }
