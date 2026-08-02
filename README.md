@@ -48,6 +48,16 @@ WARN  [files] Missing ROADMAP file in the top folder
 
 Matching is heuristic: expect some false positives and some misses. It does not replace a dedicated scanner.
 
+## Use it in CI
+
+The repository includes a GitHub Actions workflow that builds, tests and runs the tool on itself. In your own pipeline:
+
+```yaml
+- run: node dist/cli.js . --history
+```
+
+The step fails when an error is found.
+
 ## Development
 
 ```bash
