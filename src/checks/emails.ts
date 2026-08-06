@@ -1,6 +1,7 @@
 import { readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import type { Finding } from "../types.js";
+import { IGNORE_MARKER } from "./secrets.js";
 
 const EMAIL = /[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,})/g;
 const SAFE_DOMAINS = /^(example\.(com|org|net)|users\.noreply\.github\.com|noreply\.github\.com|localhost|test|invalid)$/i;
@@ -11,6 +12,7 @@ export function findEmails(text: string, file: string): Finding[] {
   const findings: Finding[] = [];
   const lines = text.split(/\r?\n/);
   for (let i = 0; i < lines.length; i++) {
+    if (IGNORE_MARKER.test(lines[i])) continue;
     for (const m of lines[i].matchAll(EMAIL)) {
       if (SAFE_DOMAINS.test(m[1])) continue;
       findings.push({

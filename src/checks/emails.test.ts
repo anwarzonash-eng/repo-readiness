@@ -24,3 +24,7 @@ test("finds several addresses on separate lines", () => {
 test("ignores @ mentions and decorators", () => {
   assert.equal(findEmails("@Component({}) and @user said hi", "a.ts").length, 0);
 });
+
+test("the ignore marker skips a line", () => {
+  assert.equal(findEmails(`a${at}b.dev # repo-readiness-ignore`, "a").length, 0);
+});

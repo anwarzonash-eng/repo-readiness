@@ -48,6 +48,10 @@ WARN  [files] Missing ROADMAP file in the top folder
 
 Matching is heuristic: expect some false positives and some misses. It does not replace a dedicated scanner.
 
+## Ignoring a line
+
+To skip one line (for example a test fixture), add `repo-readiness-ignore` to it, such as in a trailing comment.
+
 ## Use it in CI
 
 The repository includes a GitHub Actions workflow that builds, tests and runs the tool on itself. In your own pipeline:

@@ -2,6 +2,9 @@ import { readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import type { Finding } from "../types.js";
 
+/** Add this text to a line (for example in a comment) to skip it. */
+export const IGNORE_MARKER = /repo-readiness-ignore/;
+
 interface Rule {
   name: string;
   pattern: RegExp;
@@ -25,6 +28,7 @@ export function scanText(text: string, file: string): Finding[] {
   const findings: Finding[] = [];
   const lines = text.split(/\r?\n/);
   for (let i = 0; i < lines.length; i++) {
+    if (IGNORE_MARKER.test(lines[i])) continue;
     for (const rule of RULES) {
       if (rule.pattern.test(lines[i])) {
         findings.push({

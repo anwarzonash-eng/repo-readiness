@@ -25,3 +25,7 @@ test("finds a db url with credentials but not a bare host url", () => {
 test("ignores ordinary code", () => {
   assert.equal(scanText("const total = items.reduce((a, b) => a + b, 0);", "a.ts").length, 0);
 });
+
+test("a line with the ignore marker is skipped", () => {
+  assert.equal(scanText(`const k = "${fakeAws}"; // repo-readiness-ignore`, "a.ts").length, 0);
+});
