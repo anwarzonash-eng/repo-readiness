@@ -42,13 +42,28 @@ WARN  [files] Missing ROADMAP file in the top folder
 | --- | --- | --- |
 | `files` | error / warn | README and LICENSE (error), ROADMAP and `.gitignore` (warn) |
 | `env` | error / warn | Tracked `.env*` files (not `.example`), missing `.env.example` |
+| `junk` | warn | Tracked `node_modules/`, build output, logs, database files, OS files, and files over the size limit |
 | `secrets` | error | AWS, GitHub, Stripe, Slack and Google keys, private key blocks, database URLs with passwords |
 | `personal-data` | warn | Emails outside example domains |
 | `history` | error | The secret rules applied to every line ever added (`--history`) |
 
 Matching is heuristic: expect some false positives and some misses. It does not replace a dedicated scanner.
 
-## Ignoring a line
+## Configuration
+
+Add `.repo-readiness.json` to the repository root:
+
+```json
+{
+  "ignorePaths": ["fixtures/", "*.min.js"],
+  "disable": ["personal-data"],
+  "maxFileSizeMB": 5
+}
+```
+
+- `ignorePaths`: globs (`*`, `**`, `?`; a trailing `/` means a folder) that are never scanned
+- `disable`: check names to switch off
+- `maxFileSizeMB`: size limit for the `junk` check
 
 To skip one line (for example a test fixture), add `repo-readiness-ignore` to it, such as in a trailing comment.
 
