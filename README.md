@@ -41,6 +41,7 @@ WARN  [files] Missing ROADMAP file in the top folder
 | Check | Severity | Looks for |
 | --- | --- | --- |
 | `files` | error / warn | README and LICENSE (error), ROADMAP and `.gitignore` (warn) |
+| `license` | error / warn | Detects MIT, Apache-2.0, BSD, ISC, MPL, GPL family and more; errors for non-open licenses (BUSL, SSPL, PolyForm, CC NC/ND), warns for copyleft, unknown text, or a mismatch with `package.json` |
 | `env` | error / warn | Tracked `.env*` files (not `.example`), missing `.env.example` |
 | `junk` | warn | Tracked `node_modules/`, build output, logs, database files, OS files, and files over the size limit |
 | `secrets` | error | AWS, GitHub, Stripe, Slack and Google keys, private key blocks, database URLs with passwords |

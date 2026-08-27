@@ -83,3 +83,9 @@ test("an invalid config is reported as an error", () => {
   rmSync(dir, { recursive: true, force: true });
   assert.ok(f.some((x) => x.check === "config" && x.severity === "error"));
 });
+
+test("a path that does not exist reports an error and does not throw", () => {
+  const f = runChecks(join(tmpdir(), "rr-no-such-folder-xyz"));
+  assert.equal(f.length, 1);
+  assert.match(f[0].message, /does not exist/);
+});

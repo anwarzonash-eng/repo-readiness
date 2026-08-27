@@ -1,6 +1,7 @@
 import { statSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { checkJunk } from "./checks/junk.js";
+import { checkLicense } from "./checks/license.js";
 import { scanEmails } from "./checks/emails.js";
 import { checkTrackedEnvFiles } from "./checks/env.js";
 import { checkRequiredFiles } from "./checks/files.js";
@@ -18,6 +19,7 @@ export interface Options {
 export function runChecks(path: string, options: Options = {}): Finding[] {
   const root = resolve(path);
   const findings = checkRequiredFiles(root);
+  findings.push(...checkLicense(root));
   if (findings.some((f) => f.message.startsWith("Path does not exist"))) return findings;
 
   let config: Config = DEFAULT_CONFIG;
