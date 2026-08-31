@@ -3,6 +3,7 @@ import { join, resolve } from "node:path";
 import { checkJunk } from "./checks/junk.js";
 import { checkLicense } from "./checks/license.js";
 import { scanEmails } from "./checks/emails.js";
+import { scanEntropy } from "./checks/entropy.js";
 import { checkTrackedEnvFiles } from "./checks/env.js";
 import { checkRequiredFiles } from "./checks/files.js";
 import { scanHistory } from "./checks/history.js";
@@ -48,6 +49,7 @@ export function runChecks(path: string, options: Options = {}): Finding[] {
   findings.push(...checkTrackedEnvFiles(tracked));
   findings.push(...checkJunk(tracked, sizeOf, config.maxFileSizeMB * 1024 * 1024));
   findings.push(...scanFiles(root, tracked));
+  findings.push(...scanEntropy(root, tracked));
   findings.push(...scanEmails(root, tracked));
   if (options.history) findings.push(...scanHistory(root));
   return applyConfig(findings, config, ignored);

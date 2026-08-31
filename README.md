@@ -44,7 +44,7 @@ WARN  [files] Missing ROADMAP file in the top folder
 | `license` | error / warn | Detects MIT, Apache-2.0, BSD, ISC, MPL, GPL family and more; errors for non-open licenses (BUSL, SSPL, PolyForm, CC NC/ND), warns for copyleft, unknown text, or a mismatch with `package.json` |
 | `env` | error / warn | Tracked `.env*` files (not `.example`), missing `.env.example` |
 | `junk` | warn | Tracked `node_modules/`, build output, logs, database files, OS files, and files over the size limit |
-| `secrets` | error | AWS, GitHub, Stripe, Slack and Google keys, private key blocks, database URLs with passwords |
+| `secrets` | error | AWS, GitHub, Stripe, Slack and Google keys, private key blocks, database URLs with passwords, and high-entropy values assigned to names like `token`, `password`, `api_key` |
 | `personal-data` | warn | Emails outside example domains |
 | `history` | error | The secret rules applied to every line ever added (`--history`) |
 
