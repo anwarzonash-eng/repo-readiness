@@ -5,6 +5,7 @@ import { checkLicense } from "./checks/license.js";
 import { scanEmails } from "./checks/emails.js";
 import { scanEntropy } from "./checks/entropy.js";
 import { checkTrackedEnvFiles } from "./checks/env.js";
+import { scanPhones } from "./checks/phones.js";
 import { checkRequiredFiles } from "./checks/files.js";
 import { scanHistory } from "./checks/history.js";
 import { scanFiles } from "./checks/secrets.js";
@@ -51,6 +52,7 @@ export function runChecks(path: string, options: Options = {}): Finding[] {
   findings.push(...scanFiles(root, tracked));
   findings.push(...scanEntropy(root, tracked));
   findings.push(...scanEmails(root, tracked));
+  findings.push(...scanPhones(root, tracked));
   if (options.history) findings.push(...scanHistory(root));
   return applyConfig(findings, config, ignored);
 }

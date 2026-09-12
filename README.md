@@ -45,7 +45,7 @@ WARN  [files] Missing ROADMAP file in the top folder
 | `env` | error / warn | Tracked `.env*` files (not `.example`), missing `.env.example` |
 | `junk` | warn | Tracked `node_modules/`, build output, logs, database files, OS files, and files over the size limit |
 | `secrets` | error | AWS, GitHub, Stripe, Slack and Google keys, private key blocks, database URLs with passwords, and high-entropy values assigned to names like `token`, `password`, `api_key` |
-| `personal-data` | warn | Emails outside example domains |
+| `personal-data` | warn | Emails outside example domains, phone numbers outside fictional ranges |
 | `history` | error | The secret rules applied to every line ever added (`--history`) |
 
 Matching is heuristic: expect some false positives and some misses. It does not replace a dedicated scanner.
