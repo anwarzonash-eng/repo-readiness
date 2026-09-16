@@ -1,5 +1,6 @@
 import { statSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { checkAuthors } from "./checks/authors.js";
 import { checkJunk } from "./checks/junk.js";
 import { checkLicense } from "./checks/license.js";
 import { scanEmails } from "./checks/emails.js";
@@ -53,6 +54,7 @@ export function runChecks(path: string, options: Options = {}): Finding[] {
   findings.push(...scanEntropy(root, tracked));
   findings.push(...scanEmails(root, tracked));
   findings.push(...scanPhones(root, tracked));
+  findings.push(...checkAuthors(root));
   if (options.history) findings.push(...scanHistory(root));
   return applyConfig(findings, config, ignored);
 }
