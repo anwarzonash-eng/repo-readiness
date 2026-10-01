@@ -1,6 +1,6 @@
 # repo-readiness
 
-A command-line tool that checks a git repository before you make it public. It looks for the basics reviewers expect (README, LICENSE, ROADMAP, `.gitignore`), flags tracked `.env` files, and scans for common secret patterns in the files and, optionally, in the whole commit history.
+A command-line tool that checks a git repository before you make it public. It verifies the basics reviewers expect (README, LICENSE, ROADMAP, `.gitignore`), recognises the license type, flags tracked `.env` files and junk, hunts for secrets and personal data in the working tree and, optionally, in the whole commit history, and reports mixed or placeholder commit identities. It can print suggested fixes and export SARIF for code-scanning dashboards.
 
 It is for developers who want a quick pre-publish check and a non-zero exit code for CI. It is written in TypeScript with no runtime dependencies, and it never sends anything over the network.
 
@@ -21,19 +21,26 @@ node dist/cli.js [path] [options]
 | --- | --- |
 | `path` | Repository to check (default: current folder) |
 | `--history` | Also scan every past commit, including secrets that were added and later deleted |
-| `--json` | Print the report as JSON |
+| `--format text\|json\|sarif` | Output format (`--json` is a shortcut for `--format json`) |
+| `--suggest` | Print suggested fix commands after the report (changes nothing) |
+| `--quiet` | List only errors in the text report |
+| `--no-color` | Disable colored output (also honours `NO_COLOR`) |
 | `-h`, `--help` / `-v`, `--version` | Help and version |
 
-Exit code is `1` when any error is found and `0` otherwise, so it can gate a CI job.
+Exit codes: `0` no errors, `1` at least one error, `2` usage error.
 
 Example:
 
 ```
-ERROR [files] Missing LICENSE file in the top folder
-ERROR [secrets] Possible AWS access key id (src/config.js:12)
-WARN  [files] Missing ROADMAP file in the top folder
+ERROR [env] Env file is tracked by git; remove it and add it to .gitignore (.env)
+ERROR [secrets] High-entropy value assigned to "apiKey"; looks like a hard-coded secret (app.js:1)
+WARN  [junk] Tracked dependency folder; it usually should not be in git (node_modules/a.js)
 
-2 error(s), 1 warning(s)
+2 error(s), 1 warning(s), 0 note(s)
+
+Suggested fixes:
+  - git rm --cached .env
+  - echo .env >> .gitignore
 ```
 
 ## What it checks
@@ -71,13 +78,11 @@ To skip one line (for example a test fixture), add `repo-readiness-ignore` to it
 
 ## Use it in CI
 
-The repository includes a GitHub Actions workflow that builds, tests and runs the tool on itself. In your own pipeline:
-
 ```yaml
-- run: node dist/cli.js . --history
+- run: node dist/cli.js . --history --quiet
 ```
 
-The step fails when an error is found.
+The step fails when an error is found. For GitHub code scanning, write SARIF to a file with `--format sarif > results.sarif` and upload it.
 
 ## Development
 

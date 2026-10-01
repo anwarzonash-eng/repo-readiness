@@ -1,6 +1,6 @@
 {
   "name": "repo-readiness",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CLI that checks a git repository for README, LICENSE, ROADMAP, committed secrets and tracked env files",
   "type": "module",
   "bin": { "repo-readiness": "dist/cli.js" },
