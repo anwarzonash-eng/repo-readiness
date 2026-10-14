@@ -93,11 +93,16 @@ npm test      # builds and runs the node:test suite
 ```
 src/
   cli.ts        argument parsing and entry point
-  run.ts        runs all checks for a path
+  run.ts        runs all checks for a path and applies the config
+  config.ts     .repo-readiness.json parsing and glob matching
   report.ts     text / JSON output and exit code
+  sarif.ts      SARIF 2.1.0 output
+  fixes.ts      fix suggestions
   git.ts        small git helpers
-  checks/       files, env, secrets, history, emails
+  checks/       files, license, env, junk, secrets, entropy, emails, phones, authors, history
 ```
+
+Every check has its own tests, and the tool runs on itself in CI (`node dist/cli.js . --history`).
 
 ## License
 
