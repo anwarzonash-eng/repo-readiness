@@ -104,6 +104,10 @@ src/
 
 Every check has its own tests, and the tool runs on itself in CI (`node dist/cli.js . --history`).
 
+## Roadmap
+
+See [ROADMAP.md](ROADMAP.md) and [CHANGELOG.md](CHANGELOG.md).
+
 ## License
 
 [MIT](LICENSE)
